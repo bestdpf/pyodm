@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Document Repository - Files List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+
+    <!--link href="templates/tweeter/css/bootstrap.css" rel="stylesheet" -->
+    <link href="templates/tweeter/css/bootstrap.css" rel="stylesheet">
+    <link href="templates/tweeter/css/tweeter.css" rel="stylesheet">
+    <style type="text/css">
+        
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      
+    </style>
+    <link href="templates/tweeter/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="templates/tweeter/js/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="templates/tweeter/images/favicon.ico">
+
+    <link rel="apple-touch-icon" href="templates/tweeter/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="templates/tweeter/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="templates/tweeter/images/apple-touch-icon-114x114.png">
+    
+    
+        <link rel="stylesheet" type="text/css" href="gtemplates/common/css/system.css" />
+<link type="text/css" rel="stylesheet" href="gincludes/DataTables/media/css/demo_table.css" />
+
+<link rel="stylesheet" type="text/css" href="gtemplates/common/multiSelect112/jquery-ui-1.8.18.custom.css" />
+<link rel="stylesheet" type="text/css" href="gtemplates/common/multiSelect112/smoothness/jquery-ui-1.8.18.custom.css" />
+
+<script type="text/javascript" src="gincludes/jquery.min.js"></script>
+<script type="text/javascript" src="gincludes/DataTables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="gtemplates/common/multiSelect112/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="gincludes/jquery.validate.min.js"></script>
+<script type="text/javascript" src="gincludes/additional-methods.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="gtemplates/common/multiSelect112/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="gtemplates/common/multiSelect112/jquery.multiselect.filter.css" />
+<link rel="stylesheet" type="text/css" href="gtemplates/common/multiSelect112/jquery.multiselect.css" />
+<script type="text/javascript" src="gtemplates/common/multiSelect112/jquery.multiselect.js"></script>
+<script type="text/javascript" src="gtemplates/common/multiSelect112/jquery.multiselect.filter.js"></script>
+
+<script type="text/javascript" src="gincludes/default.js"></script>
+<script>
+    // Here are the translations for the multiselect area of this page
+    var langUncheckAll = 'Uncheck All';
+    var langCheckAll = 'Check All';
+    var langOf = 'of';
+    var langSelected = 'selected';
+    var langLanguage = 'english';
+    var langNoneSelected = 'Select options';
+</script>
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="gtemplates/common/js/buttonfix.js"></script>
+<![endif]-->    
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="out.php">Document Repository</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+
+              <li class="active"><a href="out.php">Home</a></li>
+              <li><a href="in.php">Check-in</a></li>
+              <li><a href="search.php">Search</a></li>
+              <li><a href="add.php">Add Document</a></li>
+                            <li>
+                 
+                    <a href="admin.php">Admin</a>
+              </li>
+                            <li><a href="logout.php">Logout</a></li>
+            </ul>          
+              <p class="navbar-text pull-right">
+Logged in as
+<a href="profile.php">admin</a>
+</p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+    </div>
+      <div class="container">
+        <div class="row">
+            <div class="span4">
+                You are here: <span class="crumb"><span class="statusbar">Files List</span></span></span>
+            </div>
+        </div>
+        <p></p>
+                    <div id="last_message">File authorization completed successfully</div>
+        <script type="text/javascript">
+    var category_option = '';
+    var category_item_option = '';
+
+    function loadItem(select_box)
+    {
+        options_array = document.forms['browser_sort'].elements['category_item'].options;
+        // Clear the list
+        for(i=0; i< options_array.length; i++)
+        {	options_array[i]=null;	}
+        options_array.length = 0;
+        switch(select_box.options[select_box.selectedIndex].value)
+        {
+            case 'author':
+                info_Array = author_array;
+                break;
+            case 'department':
+                info_Array = department_array;
+                break;
+            case 'category':
+                info_Array = category_array;
+                break;
+                                default :
+                            order_array = document.forms['browser_sort'].elements['category_item_order'].options;
+                            info_Array = new Array();
+                            info_Array[0] = new Array('Empty', 0);
+                            break;
+                        }
+                        category_option = select_box.options[select_box.selectedIndex].value;
+						switch(category_option)
+						{
+							case 'author':
+									category_option_msg = 'Author';
+								break;
+							case 'department':
+									category_option_msg = 'Department';
+								break;
+							case 'category':
+									category_option_msg = 'File Category';
+								break;
+							default :
+									category_option_msg = 'Empty';
+								break;
+						}
+							options_array[0] = new Option('Choose' + category_option_msg);
+                        options_array[0].id= 0;
+                        options_array[0].value = 'choose_an_author';
+
+                        for(i=0; i< info_Array.length; i++)
+                        {
+                            options_array[ i + 1 ]= new Option(info_Array[i][0]);
+                            options_array[ i + 1 ].id= i + 1;
+                            options_array[ i + 1 ].value = info_Array[i][0];
+                        }
+                        category_option = select_box.options[select_box.selectedIndex].value;
+                    }
+                    function loadOrder(select_box)
+                    {
+                        category_item_option = select_box.options[select_box.selectedIndex].value;
+                        if(category_item_option == 'choose_an_author')
+                            exit();
+                        order_array = new Array();
+							order_array[0] = new Array("Ascending", 0, "asc");
+	order_array[1] = new Array("descending", 0, "desc");
+	options_array = document.forms['browser_sort'].elements['category_item_order'].options;
+	options_array[0] = new Option('Choose an order');
+                        options_array[0].id= 0;
+                        options_array[0].value = 'choose_an_order';
+                        for(i=0; i< order_array.length; i++)
+                        {
+                            options_array[i+1]= new Option(order_array[i][0]);
+                            options_array[i+1].id= i + 1;
+                            options_array[i+1].value = order_array[i][2];
+                        }
+                    }
+
+                    function load(select_box)
+                    {
+                        window.location = "search.php?submit=submit&sort_by=id&where=" + category_option + "&sort_order=" + select_box.options[select_box.selectedIndex].value + "&keyword=" + escape(category_item_option) + "&exact_phrase=on";
+                    }
+        author_array = new Array();
+	author_array[0] = new Array("asd asd", 7);
+	author_array[1] = new Array("hehe hehe", 8);
+	author_array[2] = new Array("Pengfei Tuan", 2);
+	author_array[3] = new Array("User Admin", 1);
+	author_array[4] = new Array("wang fx", 5);
+	author_array[5] = new Array("Zhao Zongyi", 6);
+department_array = new Array();
+	department_array[0] = new Array("Information Systems", 1);
+category_array = new Array();
+	category_array[0] = new Array("Letter", 3);
+	category_array[1] = new Array("Presentation", 4);
+	category_array[2] = new Array("SOP", 1);
+	category_array[3] = new Array("Training Manual", 2);
+</script>
+                        <form name="browser_sort">
+			<table name="browser" border="0" cellspacing="1">
+			<tr><td>Filter by:</td>
+				<td NOWRAP ROWSPAN="0">
+					<select name='category' onChange='loadItem(this)' width='0' size='1'>
+                                                        <option id='0' selected>Select one</option>
+                                                        <option id='1' value='author'>Author</option>
+                                                        <option id='2' value='department'>Department</option>
+                                                        <option id='3' value='category'>File Category</option>
+                                </select>
+                        </td>
+				<td>
+					<select name='category_item' onChange='loadOrder(this)'>
+                                                        <option id='0' selected>Empty</option>
+                                                        </select>
+                                                        </td>
+				<td>
+					<select name='category_item_order' onChange='load(this)'>
+                                                        <option id='0' selected>Empty</option>
+                                                        </select>
+                                                        </td>
+                                                        </tr>
+                                                        </table>
+                                                        </form>
+    <img src="images/exclamation.gif" /> <a href="toBePublished.php?aku=c3RhdGU9MQ==">Documents waiting to be reviewed</a>: 26</a><br /><div id="filetable_wrapper">
+<form name="table" method="post" action="/out.php">
+    <table id="filetable" class="display" border="0" cellpadding="1" cellspacing="1">
+    <thead>
+        <tr>
+                        <th class="sorting">ID</th>
+            <th>View</th>
+            <th class="sorting">File Name</th>
+            <th class="sorting">Description</th>
+            <th class="sorting">Rights</th>
+            <th class="sorting">Date Created</th>
+            <th class="sorting">Modified Date</th>
+            <th class="sorting">Author</th>
+            <th class="sorting">Department</th>
+            <th class="sorting">Size</th>
+            <th class="">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+                <tr  >
+                        <td class="center">1</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=1&mimetype=application%2Fx-tex">View</a></td>
+                            <td><a href="details.php?aku=aWQ9MSZzdGF0ZT0y">hw-template.tex</a></td>
+            <td >No description available</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>13 May 2014 (07:27)</td>
+            <td>13 May 2014 (07:27)</td>
+            <td>User, Admin</td>
+            <td>Information Systems</td>
+            <td >5.2 KB</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+                <tr  >
+                        <td class="center">8</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=8&mimetype=application%2Fvnd.openxmlformats-officedocument.wordprocessingml.document">View</a></td>
+                            <td><a href="details.php?aku=aWQ9OCZzdGF0ZT0y">清华大学深圳研究生院网络中心设备清单无背景.docx</a></td>
+            <td >深圳网络中心设备清单，2014申请sdn实验室用到了</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>14 May 2014 (00:53)</td>
+            <td>14 May 2014 (00:53)</td>
+            <td>Pengfei, Tuan</td>
+            <td>Information Systems</td>
+            <td >37.15 KB</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+                <tr  >
+                        <td class="center">33</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=33&mimetype=text%2Fplain">View</a></td>
+                            <td><a href="details.php?aku=aWQ9MzMmc3RhdGU9Mg==">test.txt</a></td>
+            <td >this is test file hehe description</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>14 May 2014 (22:22)</td>
+            <td>14 May 2014 (22:22)</td>
+            <td>User, Admin</td>
+            <td>Information Systems</td>
+            <td >8 B</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+                <tr  >
+                        <td class="center">34</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=34&mimetype=text%2Fplain">View</a></td>
+                            <td><a href="details.php?aku=aWQ9MzQmc3RhdGU9Mg==">test.txt</a></td>
+            <td >this is test file hehe description</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>14 May 2014 (22:23)</td>
+            <td>14 May 2014 (22:23)</td>
+            <td>User, Admin</td>
+            <td>Information Systems</td>
+            <td >8 B</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+                <tr  >
+                        <td class="center">39</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=39&mimetype=text%2Fplain">View</a></td>
+                            <td><a href="details.php?aku=aWQ9Mzkmc3RhdGU9Mg==">test.txt</a></td>
+            <td >this is test file hehe description</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>14 May 2014 (22:45)</td>
+            <td>14 May 2014 (22:45)</td>
+            <td>User, Admin</td>
+            <td>Information Systems</td>
+            <td >8 B</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+                <tr  >
+                        <td class="center">40</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=40&mimetype=text%2Fplain">View</a></td>
+                            <td><a href="details.php?aku=aWQ9NDAmc3RhdGU9Mg==">test.txt</a></td>
+            <td >this is test file hehe description</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>14 May 2014 (22:50)</td>
+            <td>14 May 2014 (22:50)</td>
+            <td>User, Admin</td>
+            <td>Information Systems</td>
+            <td >8 B</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+                <tr  >
+                        <td class="center">43</td>
+            <td class="center" style="width: 50px;">
+                                    <a href="view_file.php?submit=view&id=43&mimetype=text%2Fplain">View</a></td>
+                            <td><a href="details.php?aku=aWQ9NDMmc3RhdGU9Mg==">test.txt</a></td>
+            <td >this is test file hehe description</td>
+            <td class="center"><b>r</b> | <b>w</b> | <b>a</b></td>
+            <td>14 May 2014 (22:58)</td>
+            <td>14 May 2014 (22:58)</td>
+            <td>User, Admin</td>
+            <td>Information Systems</td>
+            <td >8 B</td>
+            <td class="center">
+                                    <img src="http://thusznet.tk/images/file_unlocked.png" alt="unlocked" />
+		            </td>
+        </tr>
+            </tbody>
+    <tfoot>
+       <tr>
+                       <th>ID</th>
+            <th>View</th>
+            <th>File Name</th>
+            <th>Description</th>
+            <th>Rights</th>
+            <th>Date Created</th>
+            <th>Modified Date</th>
+            <th>Author</th>
+            <th>Department</th>
+            <th>Size</th>
+            <th>Status</th>
+        </tr>
+    </tfoot>
+    </form>
+    </table>
+</div>
+<br />      <hr>
+
+      <footer>
+          <a href="http://www.opendocman.com/">
+                <img src="images/logo.gif" title="Document Repository" alt="Document Repository" border="0">
+            </a>
+        <p>Copyright &copy; 2000-2014 Stephen Lawrence</p>
+        <p> |
+            <a href="http://219.223.169.76:631/printers/Brother-DCP-7060D" target="_new">Our Network Printer</a> |
+        </p>
+      </footer>
+
+    </div> <!-- /container -->   
+    <script type="text/javascript" src="templates/tweeter/js/bootstrap.min.js"></script>
+</body>
+</html>
+
